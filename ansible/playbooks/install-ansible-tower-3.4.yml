@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  name: Install Ansible Tower 3.4 on localhost
+  become: yes
+  vars:
+    admin_password: demo
+    repo_url: https://releases.ansible.com/ansible-tower/setup
+    ansible_tower_setup: ansible-tower-setup-3.4.0-2
+  tasks:
+
+    - name: "Downloading...{{ repo_url }}/{{ ansible_tower_setup }}.tar.gz"
+      get_url:
+        url: "{{ repo_url }}/{{ ansible_tower_setup }}.tar.gz"
+        dest: ./
+
+    - name: "Unpack {{ ansible_tower_setup }}.tar.gz"
+      unarchive:
+        src: "{{ ansible_tower_setup }}.tar.gz"
+        dest: ./
+
+    - name:  "Generate Ansible Tower Inventory File"
+      template:
+        src: templates/inventory.j2
+        dest: "{{ ansible_tower_setup }}/inventory"
+
+    - name: "RUNNING '{{ ansible_tower_setup }}/setup.sh' WILL TAKE A WHILE!!"
+      command: "{{ ansible_tower_setup }}/setup.sh"
+
+
