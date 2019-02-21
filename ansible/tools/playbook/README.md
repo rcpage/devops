@@ -1,4 +1,16 @@
-# playbook
+# playbook install/uninstall
+
+```sh
+
+#install playbook to /usr/bin/
+./install.sh
+
+#uninstall playbook from /usr/bin/
+./uninstall.sh
+
+```
+
+# playbook usage
 
 ```
 
