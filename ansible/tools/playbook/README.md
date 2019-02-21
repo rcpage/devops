@@ -1,12 +1,13 @@
 # playbook install/uninstall
 
 ```sh
+git clone https://github.com/rcpage/devops.git
 
 #install playbook to /usr/bin/
-./install.sh
+devops/ansible/tools/playbook/install.sh
 
 #uninstall playbook from /usr/bin/
-./uninstall.sh
+devops/ansible/tools/playbook/uninstall.sh
 
 ```
 
