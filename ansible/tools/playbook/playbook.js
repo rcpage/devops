@@ -175,11 +175,11 @@ function buildPlaybookYAML(filename){
       tasks = [],
       vars = readJSON(projectDir + playbook.vars);
   for(var i in taskFiles){
-    var task = readJSON(taskFiles[i]);
-    if(task == null){
-      log(taskFiles[i], task);
+    var taskDefn = readJSON(taskFiles[i]);
+    if(taskDefn == null){
+      log(taskFiles[i], taskDefn);
     } else {
-      tasks.push(task);
+      tasks.push(taskDefn.task);
     }
   }
   //replace filenames with js objects

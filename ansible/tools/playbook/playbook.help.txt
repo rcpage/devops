@@ -11,7 +11,10 @@ Usage:	playbook [action] [args] [-options] [--task-fields]
 	 - module params (JSON format)
 
 	project
-	 - command (create, build, or readme)
+	 - [command]
+		 - create	[playbook name]			Creates new playbook project
+		 - build					Builds playbook from tasks		
+		 - readme					Autogenerate playbook README.md
 
 	read
 	 - filename (YAML and JSON formats only)
