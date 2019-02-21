@@ -1,0 +1,25 @@
+Usage:	playbook [action] [args] [-options] [--task-fields]
+[actions]
+	- task		Manage task files
+	- project	Manage project playbook
+	- read		Read project JSON or YAML files
+
+[args]
+	task
+	 - description
+	 - module name
+	 - module params (JSON format)
+
+	project
+	 - command (create, build, or readme)
+
+	read
+	 - filename (YAML and JSON formats only)
+
+[-options]
+	-h		Human readable YAML document (defaults to JSON document)
+	-w		Write output as .yml or .json (defaults to .json)
+
+[--task-fields]
+
+	Task fields add properties to playbook tasks

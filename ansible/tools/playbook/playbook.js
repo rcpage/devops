@@ -12,7 +12,6 @@ const $3 = argv._[3] || '';
 
 
 switch($0){
-  case "doc":
   case "task":
     var task = newTask(),
         formattedJSON = pretty(task),
@@ -26,8 +25,22 @@ switch($0){
       result = formattedJSON;
     }
     if(argv.w){
-      log('\n\nTask "'+task.id + '" has been written to "'+task.dest+'"\n\n');
-      fs.writeFileSync(task.dest + task.id, result);
+      if (fs.existsSync(task.path) == false) {
+        log('Task "'+task.filename + '" has been written to "'+task.path+'"');
+        fs.writeFileSync(task.path, result);
+        if(argv.a){
+          var tasksList = projectDir + (argv.tasks || "tasks.json");
+          var tasksJSON = readJSON(tasksList);
+          if(tasksJSON){
+			tasksJSON.push(task.path);
+          }
+          fs.writeFileSync(tasksList, pretty(tasksJSON));
+          log('Task list has been updated.');
+        }
+      }
+      else {
+        log('Task alread exists. Please choose different task description.');
+      }
     }
     else {
       log(result);
@@ -36,15 +49,48 @@ switch($0){
   case "project":
     var filename = argv.file;
     switch($1){
+      case "create":
+        var projectName = $2,
+            projectPath = projectDir + projectName + '/';
+        if (fs.existsSync(projectPath) == false) {
+          fs.mkdirSync(projectPath);
+          fs.mkdirSync(projectPath + 'resources');
+          fs.mkdirSync(projectPath + 'tasks');
+          var playbookJson = {
+            name: argv.project || projectName,
+            hosts: argv.hosts || "all",
+            vars: argv.vars || "vars.json",
+            gather_facts: argv.gather_facts || "yes",
+            tasks: argv.tasks || "tasks.json"
+          };
+          fs.writeFileSync(projectPath + 'playbook.json', pretty(playbookJson));
+          fs.writeFileSync(projectPath + 'tasks.json', '[]');
+          fs.writeFileSync(projectPath + 'vars.json', '{}');
+        }
+        else log(`Project with name "${projectName}" already exists. Please choose another name.`);
+        break;
       case "readme":
         log(buildMarkup());
         break;
       case "build":
         var showYAML = argv.h === true,
+            write = argv.w,
             projectDir = argv.projectDir || './',
-            taskDir = projectDir + 'tasks/';
-        if(showYAML) log(buildPlaybookYAML(filename));
-        else log(pretty(buildPlaybookJSON(filename)));
+            taskDir = projectDir + 'tasks/';//important to update!!!!
+        var playbook = null;
+        if(showYAML) {
+          playbook = buildPlaybookYAML(filename);
+          if(write){
+            writePlaybook();
+            log('Playbook has been written.');
+          }
+          else
+            log(playbook);
+        }
+        else {
+          playbook = pretty(buildPlaybookJSON(filename))
+          log(playbook);
+        }
         break;
     }
     break;
@@ -59,69 +105,8 @@ switch($0){
       log('File not supported.');
     break;
   default:
-    var help = [
-      'Usage:	playbook [action] [args] [-options] [--task-fields]',
-      '[actions]',
-      '	- task		Manage task files',
-      '	- project	Manage project playbook',
-      '	- read		Read project JSON or YAML files',
-      '',
-      '[args]',
-      '	task',
-      '	 - description',
-      '	 - module name',
-      '	 - module params (JSON format)',
-      '',
-      '	project',
-      '	 - command (create, build, or readme)',
-      '',
-      '	read',
-      '	 - filename (YAML and JSON formats only)',
-      '',
-      '[-options]',
-      '	-h		Human readable YAML document (defaults to JSON document)',
-      '	-w		Write output as .yml or .json (defaults to .json)',
-      '',
-      /*
-      'Usage 1: playbook task "task description" module "json string" [--field=example]',
-      '',
-      'Example 1: playbook task "Do something important" file "{ path: /app/src/file.txt }" --become=yes',
-      'Outputs:',
-      '{',
-      '  "filename": "do-something-important.json",',
-      '  "task": {',
-      '	"name": "Do something important",',
-      '	"file": {',
-      '		"path": "/app/src/file.txt"',
-      '	},',
-      '	"become": "yes",',
-      '	"tags": [',
-      '		"do",',
-      '		"something",',
-      '		"important"',
-      '	]',
-      '  },',
-      '  "dest": "./"',
-      '}',
-      '',
-      '',
-      'Usage 2: playbook project build [options]',
-      '',
-      'Example 1: playbook project build',
-      'Output:',
-      '{',
-      '	"name": "Example Playbook",',
-      '	"hosts": "all",',
-      '	"vars": "{}",',
-      '	"gather_facts": "yes",',
-      '	"tasks": []',
-      '}',
-      '',
-      '',
-      'Usage 3: playbook read filename [options]',
-      */
-    ];
-    log(help.join('\n'));
+    var help = fs.readFileSync('/usr/bin/playbook.help').toString();
+    log(help);
 }
 
 function pretty(json){
@@ -181,7 +166,7 @@ function newTask(){
   }
   task.tags = tags;
   var filename = tags.join('-') + (argv.h ? '.yml':'.json');
-  return { filename: filename, task: task, dest: projectDir };
+  return { filename: filename, task: task, path: taskDir + filename };
 }
 
 function buildPlaybookYAML(filename){
@@ -190,7 +175,7 @@ function buildPlaybookYAML(filename){
       tasks = [],
       vars = readJSON(projectDir + playbook.vars);
   for(var i in taskFiles){
-    var task = readJSON(taskDir + taskFiles[i]);
+    var task = readJSON(taskFiles[i]);
     if(task == null){
       log(taskFiles[i], task);
     } else {
