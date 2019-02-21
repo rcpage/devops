@@ -2,12 +2,13 @@
 
 ```sh
 git clone https://github.com/rcpage/devops.git
+cd devops/ansible/tools/playbook
 
 #install playbook to /usr/bin/
-devops/ansible/tools/playbook/install.sh
+./install.sh
 
 #uninstall playbook from /usr/bin/
-devops/ansible/tools/playbook/uninstall.sh
+./uninstall.sh
 
 ```
 
@@ -28,7 +29,10 @@ Usage:	playbook [action] [args] [-options] [--task-fields]
 	 - module params (JSON format)
 
 	project
-	 - command (create, build, or readme)
+	 - [command]
+     	- create 	[playbook name]		Creates new playbook project
+        - build		[options]			Builds playbook from tasks		
+        - readme	[options]			Autogenerate playbook README.md
 
 	read
 	 - filename (YAML and JSON formats only)
