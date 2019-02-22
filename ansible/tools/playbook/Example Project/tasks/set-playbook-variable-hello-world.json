@@ -1,0 +1,17 @@
+{
+  "filename": "set-playbook-variable-hello-world.json",
+  "task": {
+    "name": "Set playbook variable Hello World",
+    "set_fact": {
+      "exampleVar": "Hello World"
+    },
+    "tags": [
+      "set",
+      "playbook",
+      "variable",
+      "hello",
+      "world"
+    ]
+  },
+  "path": "./tasks/set-playbook-variable-hello-world.json"
+}

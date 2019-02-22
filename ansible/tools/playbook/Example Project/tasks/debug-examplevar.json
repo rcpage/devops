@@ -1,0 +1,12 @@
+{
+  "filename": "debug-examplevar.json",
+  "task": {
+    "name": "Debug exampleVar",
+    "debug": "var=exampleVar",
+    "tags": [
+      "debug",
+      "examplevar"
+    ]
+  },
+  "path": "./tasks/debug-examplevar.json"
+}

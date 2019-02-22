@@ -1,6 +1,14 @@
 # playbook install/uninstall
 
 ```sh
+#install nodejs
+
+#RHEL
+yum install nodejs
+
+#Fedora
+dnf install nodejs
+
 git clone https://github.com/rcpage/devops.git
 cd devops/ansible/tools/playbook
 

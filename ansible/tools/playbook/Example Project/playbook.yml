@@ -1,0 +1,20 @@
+---
+- name: Example Project
+  hosts: all
+  vars: {}
+  gather_facts: 'yes'
+  tasks:
+    - name: Set playbook variable Hello World
+      set_fact:
+        exampleVar: Hello World
+      tags:
+        - set
+        - playbook
+        - variable
+        - hello
+        - world
+    - name: Debug exampleVar
+      debug: var=exampleVar
+      tags:
+        - debug
+        - examplevar
