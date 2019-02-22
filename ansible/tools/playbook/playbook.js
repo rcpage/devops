@@ -207,7 +207,7 @@ function buildMarkup(){
 
   var playbook = readJSON(projectDir  + 'playbook.json'),
       taskFiles = readJSON(projectDir + playbook.tasks),
-      tasks = [],
+      //tasks = [],
       vars = readJSON(projectDir + playbook.vars);
 
 
@@ -222,13 +222,13 @@ function buildMarkup(){
 
   for(var i in taskFiles){
     var filename = taskFiles[i];
-    var path = taskDir + filename;
-    var task = readJSON(path);
-    if(task == null){
-      log(taskFiles[i], task);
+    var path = filename;
+    var taskDefn = readJSON(path);
+    if(taskDefn == null){
+      log(taskFiles[i], taskDefn);
     } else {
-      tasks.push(task);
-      markup += '|['+task.name+'](tasks/'+filename+')|'+task.tags.join(', ')+'|\n';
+      //tasks.push(taskDefn.task);
+      markup += '|['+taskDefn.task.name+']('+filename+')|'+taskDefn.task.tags.join(', ')+'|\n';
     }
   }
 
