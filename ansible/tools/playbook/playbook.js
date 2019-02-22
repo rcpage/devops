@@ -202,14 +202,15 @@ function writeREADME(){
 }
 
 function buildMarkup(){
-  var markup = '# Playbook Tasks\n\n';
+ 
 
 
   var playbook = readJSON(projectDir  + 'playbook.json'),
       taskFiles = readJSON(projectDir + playbook.tasks),
       //tasks = [],
       vars = readJSON(projectDir + playbook.vars);
-
+  
+ var markup = '# '+playbook.name+'\n\n';
 
   markup += '```json\n';
 
