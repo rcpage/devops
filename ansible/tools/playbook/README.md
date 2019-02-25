@@ -57,7 +57,7 @@ Usage:	playbook [action] [args] [-options] [--task-fields]
 
 # Getting Started
 
-Quickly create your first project by following the steps run playbook using Ansible engine.
+Quickly create your first project by following the steps to run playbook.yml using Ansible engine.
 
 1. Create new project
 2. Add tasks to project
@@ -81,7 +81,7 @@ Quickly create your first project by following the steps run playbook using Ansi
 
 ### 2. Add tasks to project
 
-***Task-1: "Set playbook variable Hello World"**
+***Task-1: "Set playbook variable Hello World"***
 ```sh
 > playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -wa
 ```
