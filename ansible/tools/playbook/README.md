@@ -1,4 +1,4 @@
-# <a name="install"></a>install/uninstall playbook to/from '/usr/bin'
+# install/uninstall playbook to/from '/usr/bin'
 
 ```sh
 #install nodejs
@@ -20,7 +20,7 @@
 
 ```
 
-# <a name="usage"></a>playbook usage
+# playbook usage
 
 ```
 
@@ -55,7 +55,7 @@ Usage:	playbook [action] [args] [-options] [--task-fields]
 
 ```
 
-# <a name="getting-started"></a>Getting Started
+# Getting Started
 
 Quickly create your first project by following the steps to run playbook.yml using Ansible engine.
 
@@ -79,7 +79,7 @@ Quickly create your first project by following the steps to run playbook.yml usi
 └── vars.json
 ```
 
-### 2. <a name="add-tasks"></a>Add tasks to project
+### 2. Add tasks to project
 
 ***Task-1: "Set playbook variable Hello World"***
 ```sh
@@ -90,13 +90,13 @@ Quickly create your first project by following the steps to run playbook.yml usi
 > playbook task "Debug exampleVar" debug "var=exampleVar" -wa
 ```
 
-### 3. <a name="build-project"></a>Build project playbook YAML
+### 3. Build project playbook YAML
 
 ```sh
 > playbook project build -hw #creates project.yml
 ```
 
-### 4. <a name="list-tasks"></a>List playbook tasks
+### 4. List playbook tasks
 
 ```sh
 > ansible-playbook playbook.yml --list-tasks
@@ -109,7 +109,7 @@ playbook: playbook.yml
       Debug exampleVar	TAGS: [debug, examplevar]
 ```
 
-### 5. <a name="run-playbook"></a>Run playbook
+### 5. Run playbook
 
 ```sh
 > ansible-playbook playbook.yml --user [username] --ask-pass --extra-vars="variable_host=[ip address or hostname]"
@@ -133,7 +133,7 @@ localhost                  : ok=3    changed=0    unreachable=0    failed=0
 
 ```
 
-# <a name="examples"></a>Examples
+# Examples
 
 
 ## Read playbook.json file
