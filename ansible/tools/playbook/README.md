@@ -1,25 +1,28 @@
-# install/uninstall playbook to/from '/usr/bin'
-
+### 1. Clone devops project
 ```sh
-#install nodejs
+> git clone https://github.com/rcpage/devops.git
+> cd devops/ansible/tools/playbook
+```
 
+### 2. Install NodeJS
+```sh
 #RHEL
 > yum install nodejs
 
 #Fedora
 > dnf install nodejs
-
-> git clone https://github.com/rcpage/devops.git
-> cd devops/ansible/tools/playbook
-
-#install playbook to /usr/bin/
-> ./install.sh
-
-#uninstall playbook from /usr/bin/
-> ./uninstall.sh
-
 ```
 
+### 3. install playbook to '/usr/bin'
+
+```sh
+> ./install.sh
+```
+
+### 4. uninstall playbook from /usr/bin/
+```sh
+> ./uninstall.sh
+```
 # playbook usage
 
 ```
