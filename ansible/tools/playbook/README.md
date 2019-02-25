@@ -133,6 +133,12 @@ localhost                  : ok=3    changed=0    unreachable=0    failed=0
 
 ```
 
+
+### 6. Create project README.md
+```sh
+> playbook project readme
+```
+
 # Examples
 
 
@@ -353,3 +359,23 @@ PLAY RECAP
 localhost                  : ok=3    changed=0    unreachable=0    failed=0   
 
 ```
+
+## Create project README.md template
+
+```sh
+> playbook project readme
+```
+# Example Project
+```json
+{
+  "name": "Example Project",
+  "hosts": "all",
+  "vars": "vars.json",
+  "gather_facts": "yes",
+  "tasks": "tasks.json"
+}
+```
+| Tasks | Tags |
+| ----- | ---- |
+|[Set playbook variable Hello World](./tasks/set-playbook-variable-hello-world.json)|set, playbook, variable, hello, world|
+|[Debug exampleVar](./tasks/debug-examplevar.json)|debug, examplevar|
