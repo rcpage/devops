@@ -1,4 +1,4 @@
-# playbook install/uninstall
+# install/uninstall playbook to/from '/usr/bin'
 
 ```sh
 #install nodejs
@@ -55,7 +55,17 @@ Usage:	playbook [action] [args] [-options] [--task-fields]
 
 ```
 
-### Create new project
+# Getting Started
+
+Quickly create your first project by following the steps run playbook using Ansible engine.
+
+1. Create new project
+2. Add tasks to project
+3. Build project playbook YAML
+4. List playbook tasks
+5. Run playbook
+
+### 1. Create new project
 
 ```sh
 > playbook project create "Example Project"
@@ -69,23 +79,24 @@ Usage:	playbook [action] [args] [-options] [--task-fields]
 └── vars.json
 ```
 
-### Add tasks to project
+### 2. Add tasks to project
 
+***Task-1: "Set playbook variable Hello World"**
 ```sh
 > playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -wa
 ```
-
+***Task-2: "Debug exampleVar"***
 ```sh
 > playbook task "Debug exampleVar" debug "var=exampleVar" -wa
 ```
 
-### Build project playbook YAML
+### 3. Build project playbook YAML
 
 ```sh
 > playbook project build -hw #creates project.yml
 ```
 
-### List playbook tasks
+### 4. List playbook tasks
 
 ```sh
 > ansible-playbook playbook.yml --list-tasks
@@ -98,7 +109,7 @@ playbook: playbook.yml
       Debug exampleVar	TAGS: [debug, examplevar]
 ```
 
-### Run playbook
+### 5. Run playbook
 
 ```sh
 > ansible-playbook playbook.yml --user [username] --ask-pass --extra-vars="variable_host=[ip address or hostname]"
@@ -151,7 +162,7 @@ localhost                  : ok=3    changed=0    unreachable=0    failed=0
 [] # Note empty array
 ```
 
-## Output example task to console (JSON format)
+## Output example task to console (Defaults JSON format)
 ```sh
 > playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }"
 {
@@ -186,7 +197,7 @@ localhost                  : ok=3    changed=0    unreachable=0    failed=0
   "path": "./tasks/debug-examplevar.json"
 }
 ```
-## Output example task to console (YAML format)
+## Output example task to console (YAML format) with option [-h]
 ```sh
 > playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -h
 filename: set-playbook-variable-hello-world.yml
@@ -213,15 +224,15 @@ task:
 path: ./tasks/debug-examplevar.yml
 ```
 
-## Options [-wa] creates file in tasks folder and appends filename to tasks.json array
+## Option [-w] writes file in tasks folder and option [-a] appends filename to tasks.json array
 
-***Write "Set playbook variable Hello World" then append filename to tasks.json***
+***Write task "Set playbook variable Hello World" then append filename to tasks.json***
 ```sh
 > playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -wa
 Task "set-playbook-variable-hello-world.json" has been written to "./tasks/set-playbook-variable-hello-world.json"
 Task list has been updated.
 ```
-***Write Debug exampleVar then append filename to tasks.json***
+***Write task "Debug exampleVar" then append filename to tasks.json***
 
 ```sh
 > playbook task "Debug exampleVar" debug "var=exampleVar" -wa
