@@ -4,19 +4,19 @@
 #install nodejs
 
 #RHEL
-yum install nodejs
+> yum install nodejs
 
 #Fedora
-dnf install nodejs
+> dnf install nodejs
 
-git clone https://github.com/rcpage/devops.git
-cd devops/ansible/tools/playbook
+> git clone https://github.com/rcpage/devops.git
+> cd devops/ansible/tools/playbook
 
 #install playbook to /usr/bin/
-./install.sh
+> ./install.sh
 
 #uninstall playbook from /usr/bin/
-./uninstall.sh
+> ./uninstall.sh
 
 ```
 
@@ -55,28 +55,80 @@ Usage:	playbook [action] [args] [-options] [--task-fields]
 
 ```
 
-# Examples
+### Create new project
 
 ```sh
+> playbook project create "Example Project"
+> cd "Example Project"
+> tree .
+"Example Project"
+├── playbook.json
+├── resources
+├── tasks
+├── tasks.json
+└── vars.json
+```
 
-#
-# Create playbook project
-#
-playbook project create "Example Project"
-cd "Example Project"
+### Add tasks to project
 
-# tree .
-# "Example Project"
-# ├── playbook.json
-# ├── resources
-# ├── tasks
-# ├── tasks.json
-# └── vars.json
+```sh
+> playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -wa
+```
 
-#
-# Read playbook.json file
-#
-playbook read playbook.json
+```sh
+> playbook task "Debug exampleVar" debug "var=exampleVar" -wa
+```
+
+### Build project playbook YAML
+
+```sh
+> playbook project build -hw #creates project.yml
+```
+
+### List playbook tasks
+
+```sh
+> ansible-playbook playbook.yml --list-tasks
+
+playbook: playbook.yml
+
+  play #1 (all): Example Project	TAGS: []
+    tasks:
+      Set playbook variable Hello World	TAGS: [hello, playbook, set, variable, world]
+      Debug exampleVar	TAGS: [debug, examplevar]
+```
+
+### Run playbook
+
+```sh
+> ansible-playbook playbook.yml --user [username] --ask-pass --extra-vars="variable_host=[ip address or hostname]"
+SSH password: 
+
+PLAY [Example Project]
+
+TASK [Gathering Facts] 
+ok: [localhost]
+
+TASK [Set playbook variable Hello World] 
+ok: [localhost]
+
+TASK [Debug exampleVar] 
+ok: [localhost] => {
+    "exampleVar": "Hello World"
+}
+
+PLAY RECAP 
+localhost                  : ok=3    changed=0    unreachable=0    failed=0   
+
+```
+
+# Examples
+
+
+## Read playbook.json file
+
+```sh
+> playbook read playbook.json
 {
   "name": "Example Project",
   "hosts": "all",
@@ -84,23 +136,24 @@ playbook read playbook.json
   "gather_facts": "yes",
   "tasks": "tasks.json"
 }
+```
 
-#
-# Read vars.json file
-#
-playbook read vars.json 
+## Read vars.json file
+
+```sh
+> playbook read vars.json 
 {} # Note empty object
+```
+## Read tasks.json file
 
-#
-# Read tasks.json file
-#
-playbook read vars.json 
+```sh
+> playbook read vars.json 
 [] # Note empty array
+```
 
-#
-# Output example task to console (JSON format)
-#
-playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }"
+## Output example task to console (JSON format)
+```sh
+> playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }"
 {
   "filename": "set-playbook-variable-hello-world.json",
   "task": {
@@ -119,7 +172,7 @@ playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello 
   "path": "./tasks/set-playbook-variable-hello-world.json"
 }
 
-playbook task "Debug exampleVar" debug "var=exampleVar"
+> playbook task "Debug exampleVar" debug "var=exampleVar"
 {
   "filename": "debug-examplevar.json",
   "task": {
@@ -132,12 +185,10 @@ playbook task "Debug exampleVar" debug "var=exampleVar"
   },
   "path": "./tasks/debug-examplevar.json"
 }
-
-
-#
-# Output example task to console (YAML format)
-#
-playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -h
+```
+## Output example task to console (YAML format)
+```sh
+> playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -h
 filename: set-playbook-variable-hello-world.yml
 task:
   name: Set playbook variable Hello World
@@ -151,7 +202,7 @@ task:
     - world
 path: ./tasks/set-playbook-variable-hello-world.yml
 
-playbook task "Debug exampleVar" debug "var=exampleVar" -h
+> playbook task "Debug exampleVar" debug "var=exampleVar" -h
 filename: debug-examplevar.yml
 task:
   name: Debug exampleVar
@@ -160,32 +211,36 @@ task:
     - debug
     - examplevar
 path: ./tasks/debug-examplevar.yml
+```
 
+## Options [-wa] creates file in tasks folder and appends filename to tasks.json array
 
-#
-# Write then add [-wa] options creates file in tasks folder and appends filename to tasks.json array
-#
-playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -wa
+***Write "Set playbook variable Hello World" then append filename to tasks.json***
+```sh
+> playbook task "Set playbook variable Hello World" set_fact "{ exampleVar: Hello World }" -wa
 Task "set-playbook-variable-hello-world.json" has been written to "./tasks/set-playbook-variable-hello-world.json"
 Task list has been updated.
+```
+***Write Debug exampleVar then append filename to tasks.json***
 
-playbook task "Debug exampleVar" debug "var=exampleVar" -wa
+```sh
+> playbook task "Debug exampleVar" debug "var=exampleVar" -wa
 Task "debug-examplevar.json" has been written to "./tasks/debug-examplevar.json"
 Task list has been updated.
+```
 
-
-# Note: read tasks.json file after command
-playbook read tasks.json 
+***Note: read tasks.json file after command***
+```sh
+> playbook read tasks.json 
 [
   "./tasks/set-playbook-variable-hello-world.json",
   "./tasks/debug-examplevar.json"
 ]
+```
 
-
-#
-# Output playbook build after adding task to console
-#
-playbook project build
+## Output playbook build after adding task to console
+```sh
+> playbook project build
 [
   {
     "name": "Example Project",
@@ -217,12 +272,11 @@ playbook project build
     ]
   }
 ]
+```
 
+## Review playbook.yml
 
-
-#
-# Review playbook.yml prior to writing to folder
-#
+```sh
 playbook project build -h
 ---
 - name: Example Project
@@ -244,18 +298,18 @@ playbook project build -h
       tags:
         - debug
         - examplevar
+```
+## Write playbook.yml to project folder
 
-
-#
-# Write playbook.yml to project folder
-#
-playbook project build -hw
+```sh
+> playbook project build -hw
 Playbook has been written.
+```
 
-#
-# Verify playbook syntax by listing tasks using ansible-playbook command
-#
-ansible-playbook playbook.yml --list-tasks
+## Verify playbook YAML by listing tasks using 'ansible-playbook' command
+
+```sh
+> ansible-playbook playbook.yml --list-tasks
 
 playbook: playbook.yml
 
@@ -263,29 +317,28 @@ playbook: playbook.yml
     tasks:
       Set playbook variable Hello World	TAGS: [hello, playbook, set, variable, world]
       Debug exampleVar	TAGS: [debug, examplevar]
+```
 
-#
-# Verify playbook syntax by listing tasks using ansible-playbook command
-#
-ansible-playbook playbook.yml --user [username] --ask-pass --extra-vars="variable_host=[ip address or hostname]"
+## Verify playbook using 'ansible-playbook' command
+
+```sh
+> ansible-playbook playbook.yml --user [username] --ask-pass --extra-vars="variable_host=[ip address or hostname]"
 SSH password: 
 
-PLAY [Example Project] ********************************************************************************************************************************************************************************************
+PLAY [Example Project] 
 
-TASK [Gathering Facts] ********************************************************************************************************************************************************************************************
+TASK [Gathering Facts] 
 ok: [localhost]
 
-TASK [Set playbook variable Hello World] **************************************************************************************************************************************************************************
+TASK [Set playbook variable Hello World] 
 ok: [localhost]
 
-TASK [Debug exampleVar] *******************************************************************************************************************************************************************************************
+TASK [Debug exampleVar] 
 ok: [localhost] => {
     "exampleVar": "Hello World"
 }
 
-PLAY RECAP ********************************************************************************************************************************************************************************************************
+PLAY RECAP 
 localhost                  : ok=3    changed=0    unreachable=0    failed=0   
-
-
 
 ```
