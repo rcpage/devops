@@ -59,11 +59,12 @@ Usage:	playbook [action] [args] [-options] [--task-fields]
 
 Quickly create your first project by following the steps to run playbook.yml using Ansible engine.
 
-1. Create new project
-2. Add tasks to project
-3. Build project playbook YAML
-4. List playbook tasks
-5. Run playbook
+1. <a href="https://github.com/rcpage/devops/blob/master/ansible/tools/playbook/README.md#1-create-new-project" target="_blank">Create new project</a>
+2. <a href="https://github.com/rcpage/devops/blob/master/ansible/tools/playbook/README.md#2-add-tasks-to-project" target="_blank">Add tasks to project</a>
+3. <a href="https://github.com/rcpage/devops/blob/master/ansible/tools/playbook/README.md#3-build-project-playbook-yaml" target="_blank">Build project playbook YAML</a>
+4. <a href="https://github.com/rcpage/devops/blob/master/ansible/tools/playbook/README.md#4-list-playbook-tasks" target="_blank">List playbook tasks</a>
+5. <a href="https://github.com/rcpage/devops/blob/master/ansible/tools/playbook/README.md#5-run-playbook" target="_blank">Run playbook</a>
+6. <a href="https://github.com/rcpage/devops/blob/master/ansible/tools/playbook/README.md#create-project-readmemd-template" target="_blank">Create README.md template</a>
 
 ### 1. Create new project
 
