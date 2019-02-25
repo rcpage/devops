@@ -65,7 +65,7 @@ Quickly create your first project by following the steps to run playbook.yml usi
 4. List playbook tasks
 5. Run playbook
 
-### 1. <a name="create-new-project"></a>Create new project
+### 1. Create new project
 
 ```sh
 > playbook project create "Example Project"
